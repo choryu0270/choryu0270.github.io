@@ -8,52 +8,81 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- guide -->
     <header>
-        <nav>
+        <nav aria-label="Primary navigation">
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#blog">Blog</a></li>
                 <li><a href="#research">Research</a></li>
                 <li><a href="#publications">Publications</a></li>
-          <!--  <li><a href="#resume">Resume</a></li>
-                <li><a href="#codes">Codes</a></li>
-                <li><a href="#talks">Talks</a></li>
-                <li><a href="#links">Links</a></li>
-                <li><a href="#group">Group</a></li>-->
             </ul>
         </nav>
     </header>
 
-    <!-- main page -->
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Chang LIU</h1>
-            <h2>刘畅</h2>
-            <p>Experimentalist, Astronomer, Father.</p>
-            <p>AD ASTRA</p>
+    <main>
+        <section id="home" class="hero" aria-labelledby="home-title">
+            <div class="hero-text">
+                <h1 id="home-title">Chang LIU</h1>
+                <h2>刘畅</h2>
+                <p>Experimentalist, Astronomer, Father.</p>
+                <p>AD ASTRA</p>
 
-            <!-- icons -->
-            <div class="social-icons">
-                <a href="https://orcid.org/0000-0001-6314-5424"><img src="icons/orcid.png" alt="ORCID"></a>
-                <a href="https://scholar.google.com/citations?user=A4jykMgAAAAJ&hl=en"><img src="icons/google_scholar.png" alt="Google Scholar"></a>
-          <!--  <a href="https://www.researchgate.net/profile/Chang-Liu-441"><img src="icons/researchgate.png" alt="ResearchGate"></a> -->
-                <a href="https://www.linkedin.com/in/changliu0270/"><img src="icons/linkedin.png" alt="LinkedIn"></a>
-                <!-- add more -->
+                <div class="social-icons" aria-label="Profile links">
+                    <a href="https://orcid.org/0000-0001-6314-5424" aria-label="ORCID profile"><img src="icons/orcid.png" alt=""></a>
+                    <a href="https://scholar.google.com/citations?user=A4jykMgAAAAJ&hl=en" aria-label="Google Scholar profile"><img src="icons/google_scholar.png" alt=""></a>
+                    <a href="https://www.linkedin.com/in/changliu0270/" aria-label="LinkedIn profile"><img src="icons/linkedin.png" alt=""></a>
+                </div>
             </div>
+        </section>
+
+        <section id="about" class="content-section" aria-labelledby="about-title">
+            <div class="section-inner">
+                <p class="section-kicker">Profile</p>
+                <h2 id="about-title">About</h2>
+                <div class="empty-state">
+                    <p>This section is ready for a short biography, current affiliation, research interests, and contact details.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="content-section" aria-labelledby="blog-title">
+            <div class="section-inner">
+                <p class="section-kicker">Notes</p>
+                <h2 id="blog-title">Blog</h2>
+                <div class="empty-state">
+                    <p>This section is ready for posts, field notes, project updates, or essays.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="content-section" aria-labelledby="research-title">
+            <div class="section-inner">
+                <p class="section-kicker">Work</p>
+                <h2 id="research-title">Research</h2>
+                <div class="empty-state">
+                    <p>This section is ready for research topics, projects, instruments, collaborations, and selected results.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications" class="content-section" aria-labelledby="publications-title">
+            <div class="section-inner">
+                <p class="section-kicker">Output</p>
+                <h2 id="publications-title">Publications</h2>
+                <div class="empty-state">
+                    <p>This section is ready for selected papers, publication lists, and links to external academic profiles.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>Kelvin-Helmholtz cloud formation over KPSI(QST), Japan.</p>
+            <p>© 2024 Chang LIU. All rights reserved.</p>
+            <p>Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer">Icons8</a>.</p>
         </div>
-    </section>
-
-<footer>
-    <div class="footer-container">
-        <p>Kelvin-Helmholtz cloud formation over KPSI(QST), Japan.</p>
-        <p>© 2024 Chang LIU. All rights reserved.</p>
-        <p>Icons by <a href="https://icons8.com" target="_blank">Icons8</a>.</p>
-    </div>
-</footer>
-
-    
+    </footer>
 </body>
 </html>
