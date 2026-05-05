@@ -4,54 +4,77 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-image: url('background.jpg'); 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.32)), url('background.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; 
+    background-attachment: fixed;
     color: #333;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
 }
 
 header {
-    background-color: transparent;
-    position: absolute;
+    position: fixed;
     top: 0;
+    left: 0;
+    z-index: 10;
     width: 100%;
-    text-align: center;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 18px rgba(0, 0, 0, 0.08);
 }
 
 nav ul {
     list-style: none;
     display: flex;
-    justify-content: space-between; 
-    padding: 20px 40px; 
-    flex-wrap: nowrap; 
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    overflow-x: auto;
 }
 
 nav ul li {
-    /* 删除或调整 margin，使用 gap 替代 */
+    flex: 0 0 auto;
 }
 
 nav ul li a {
+    display: block;
+    border-radius: 999px;
+    padding: 8px 14px;
     text-decoration: none;
-    color: #333;
-    font-size: 16px;
+    color: #1f2933;
+    font-size: 15px;
     font-weight: bold;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-nav ul li a:hover {
-    color: white; /* 鼠标悬浮时字体颜色改为白色 */
+nav ul li a:hover,
+nav ul li a:focus-visible {
+    background-color: rgba(31, 41, 51, 0.86);
+    color: white;
+    outline: none;
+}
+
+main {
+    min-height: 100vh;
+}
+
+.hero,
+.content-section {
+    scroll-margin-top: 76px;
 }
 
 .hero {
-    flex-grow: 1; 
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 120px 24px 80px;
     text-align: center;
     color: white;
 }
@@ -71,30 +94,93 @@ nav ul li a:hover {
     margin-bottom: 20px;
 }
 
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 8px;
+}
+
 .social-icons a {
-    margin: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.78);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.social-icons a:hover,
+.social-icons a:focus-visible {
+    transform: translateY(-2px);
+    background: white;
+    outline: none;
 }
 
 .social-icons img {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
+}
+
+.content-section {
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+    padding: 96px 24px;
+    background: rgba(255, 255, 255, 0.88);
+}
+
+.content-section:nth-of-type(odd) {
+    background: rgba(244, 247, 248, 0.9);
+}
+
+.section-inner {
+    width: min(980px, 100%);
+    margin: 0 auto;
+}
+
+.section-kicker {
+    margin-bottom: 10px;
+    color: #596773;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+
+.section-inner h2 {
+    margin-bottom: 24px;
+    color: #1f2933;
+    font-size: 38px;
+}
+
+.empty-state {
+    border: 1px solid rgba(31, 41, 51, 0.16);
+    border-radius: 8px;
+    padding: 28px;
+    background: rgba(255, 255, 255, 0.72);
+    color: #4b5563;
+    font-size: 18px;
+    line-height: 1.7;
 }
 
 footer {
-    text-align: center; 
-    padding: 20px;
-    background-color: transparent;
-    font-size: 14px;
-    color: white;
     width: 100%;
+    padding: 24px;
+    background-color: rgba(20, 26, 32, 0.78);
+    color: white;
+    text-align: center;
+    font-size: 14px;
 }
 
 .footer-container p {
-    margin: 5px 0; 
+    margin: 5px 0;
 }
 
 footer a {
-    color: #007BFF;
+    color: #9fd0ff;
     text-decoration: none;
 }
 
@@ -102,48 +188,42 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* 针对中等屏幕的媒体查询 */
 @media (max-width: 768px) {
     nav ul {
-        padding: 10px 20px; /* 在中等屏幕时缩小左右内边距 */
-        gap: 20px; /* 在中等屏幕时缩小间距 */
+        justify-content: flex-start;
+        padding: 10px 14px;
     }
 
     nav ul li a {
-        font-size: 14px; 
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .hero {
+        padding-top: 110px;
     }
 
     .hero-text h1 {
-        font-size: 40px;
+        font-size: 42px;
     }
 
     .hero-text h2 {
         font-size: 30px;
     }
 
-    .hero-text p {
+    .hero-text p,
+    .empty-state {
         font-size: 16px;
     }
 
-    .social-icons img {
-        width: 25px;
-        height: 25px;
+    .section-inner h2 {
+        font-size: 32px;
     }
 }
 
-/* 针对小屏幕的媒体查询 */
 @media (max-width: 480px) {
-    nav ul {
-        padding: 5px 10px; /* 在小屏幕时进一步缩小内边距 */
-        gap: 10px; /* 在小屏幕时进一步缩小间距 */
-    }
-
-    nav ul li a {
-        font-size: 12px;
-    }
-
     .hero-text h1 {
-        font-size: 30px;
+        font-size: 34px;
     }
 
     .hero-text h2 {
@@ -154,8 +234,22 @@ footer a:hover {
         font-size: 14px;
     }
 
+    .social-icons a {
+        width: 38px;
+        height: 38px;
+    }
+
     .social-icons img {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
+    }
+
+    .content-section {
+        min-height: 70vh;
+        padding: 82px 18px;
+    }
+
+    .empty-state {
+        padding: 20px;
     }
 }
