@@ -36,12 +36,49 @@
             </div>
         </section>
 
-        <section id="about" class="page-section content-section" aria-labelledby="about-title" hidden>
-            <div class="section-inner">
+        <section id="about" class="page-section content-section about-section" aria-labelledby="about-title" hidden>
+            <div class="section-inner about-inner">
                 <p class="section-kicker">Profile</p>
                 <h2 id="about-title">About</h2>
-                <div class="empty-state">
-                    <p>This page is ready for a short biography, current affiliation, research interests, and contact details.</p>
+                <div class="about-grid">
+                    <div class="about-copy">
+                        <p>I am an experimental physicist working at the intersection of laboratory astrophysics, high-energy-density physics, and laser-plasma acceleration. My research uses controlled laboratory experiments to explore physical processes that also shape energetic astrophysical environments.</p>
+                        <p>I received my M.Sc. in Astrophysics from Beijing Normal University and my Ph.D. in Physics from Osaka University. I am currently a postdoctoral researcher at HZDR.</p>
+                        <div class="research-tags" aria-label="Research interests">
+                            <span>Experimental physics</span>
+                            <span>Laboratory astrophysics</span>
+                            <span>Laser-plasma acceleration</span>
+                            <span>High-energy-density science</span>
+                        </div>
+                    </div>
+
+                    <figure class="map-panel" aria-labelledby="map-title">
+                        <figcaption id="map-title">Places along my academic path</figcaption>
+                        <svg class="world-map" viewBox="0 0 960 460" role="img" aria-label="Stylized world map highlighting China, Japan, and Germany">
+                            <rect class="map-ocean" width="960" height="460" rx="8"></rect>
+                            <path class="continent" d="M72 155 C118 92 210 80 265 122 C313 158 286 215 338 236 C378 252 382 313 329 342 C260 378 177 349 144 299 C98 294 54 250 66 205 C42 189 43 172 72 155 Z"></path>
+                            <path class="continent" d="M287 279 C328 263 371 286 372 327 C374 380 317 414 281 386 C248 360 251 296 287 279 Z"></path>
+                            <path class="continent" d="M410 124 C468 81 565 77 642 112 C721 148 803 144 866 193 C911 230 895 294 833 300 C773 306 737 275 684 291 C610 313 554 279 503 293 C445 308 386 266 389 211 C391 175 379 147 410 124 Z"></path>
+                            <path class="continent" d="M478 292 C530 284 590 330 591 381 C592 425 548 452 508 430 C465 407 446 322 478 292 Z"></path>
+                            <path class="continent" d="M767 315 C810 297 878 311 905 348 C929 382 902 417 848 414 C803 411 754 365 767 315 Z"></path>
+                            <path class="visited-region germany" d="M498 151 C510 145 526 149 531 160 C536 174 522 187 508 181 C496 176 489 158 498 151 Z"></path>
+                            <path class="visited-region china" d="M678 187 C711 168 757 176 775 206 C789 230 765 258 728 255 C694 252 659 222 678 187 Z"></path>
+                            <path class="visited-region japan" d="M804 203 C819 195 837 203 840 219 C842 235 825 247 810 238 C796 230 792 211 804 203 Z"></path>
+                            <g class="map-marker" transform="translate(514 164)">
+                                <circle r="7"></circle>
+                                <text x="13" y="5">Germany</text>
+                            </g>
+                            <g class="map-marker" transform="translate(728 218)">
+                                <circle r="7"></circle>
+                                <text x="13" y="5">China</text>
+                            </g>
+                            <g class="map-marker" transform="translate(821 222)">
+                                <circle r="7"></circle>
+                                <text x="13" y="5">Japan</text>
+                            </g>
+                        </svg>
+                        <p class="map-note">Highlighted countries currently reflect the places mentioned in this profile.</p>
+                    </figure>
                 </div>
             </div>
         </section>
