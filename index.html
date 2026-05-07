@@ -59,6 +59,7 @@
                 <h2 id="blog-title">Blog</h2>
                 <figure class="map-panel" aria-labelledby="map-title">
                     <figcaption id="map-title">Travel Map</figcaption>
+                    <p class="map-subtitle">Visited countries and regions</p>
                     <div class="map-stage" role="img" aria-label="Mercator travel map with pins for visited countries and regions">
                         <svg id="travel-map" class="travel-map" viewBox="0 0 1000 560" aria-hidden="true">
                             <rect class="map-water" width="1000" height="560"></rect>
@@ -196,9 +197,7 @@
         }
 
         function ringToPath(points) {
-            const projected = points
-                .filter((point) => point[1] >= mapViewBox.minLat - 2 && point[1] <= mapViewBox.maxLat + 2)
-                .map(([lon, lat]) => projectMapPoint(lon, lat));
+            const projected = points.map(([lon, lat]) => projectMapPoint(lon, lat));
 
             if (projected.length < 2) {
                 return '';
@@ -206,7 +205,7 @@
 
             return projected
                 .map((point, index) => `${index ? 'L' : 'M'}${point.x.toFixed(2)},${point.y.toFixed(2)}`)
-                .join(' ');
+                .join(' ') + ' Z';
         }
 
         function landGeometryToPath(geometry, arcs) {
