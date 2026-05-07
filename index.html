@@ -59,30 +59,18 @@
                 <h2 id="blog-title">Blog</h2>
                 <figure class="map-panel" aria-labelledby="map-title">
                     <figcaption id="map-title">Travel Map</figcaption>
-                    <svg class="world-map" viewBox="0 0 960 500" role="img" aria-label="Stylized Mercator world map with highlighted visited places">
-                        <rect class="map-ocean" width="960" height="500" rx="8"></rect>
-                        <path class="continent" d="M117 110 L155 82 L215 74 L276 93 L314 134 L304 184 L337 214 L334 260 L302 300 L249 314 L213 352 L164 337 L142 295 L100 267 L82 213 L95 158 Z"></path>
-                        <path class="continent" d="M287 318 L326 304 L365 327 L374 374 L347 431 L303 457 L265 425 L252 369 Z"></path>
-                        <path class="continent" d="M421 101 L469 72 L535 77 L579 106 L641 98 L704 123 L756 153 L827 171 L883 211 L872 257 L827 275 L786 252 L743 278 L677 266 L621 293 L557 276 L505 293 L451 267 L418 218 L386 194 L395 145 Z"></path>
-                        <path class="continent" d="M492 287 L538 299 L573 341 L588 394 L563 453 L519 471 L480 429 L466 364 Z"></path>
-                        <path class="continent" d="M758 325 L806 304 L870 319 L912 361 L899 417 L842 432 L789 402 L748 365 Z"></path>
-                        <path class="continent" d="M377 219 L409 216 L429 238 L412 260 L381 255 Z"></path>
-                        <g class="visited-place" transform="translate(520 166)">
-                            <circle class="visit-halo" r="22"></circle>
-                            <circle class="visit-dot" r="6"></circle>
-                            <text x="13" y="5">Germany</text>
-                        </g>
-                        <g class="visited-place" transform="translate(719 211)">
-                            <circle class="visit-halo" r="25"></circle>
-                            <circle class="visit-dot" r="6"></circle>
-                            <text x="13" y="5">China</text>
-                        </g>
-                        <g class="visited-place" transform="translate(815 217)">
-                            <circle class="visit-halo" r="18"></circle>
-                            <circle class="visit-dot" r="6"></circle>
-                            <text x="13" y="5">Japan</text>
-                        </g>
-                    </svg>
+                    <div class="map-stage" role="img" aria-label="Minimal world map with pins for visited countries and regions">
+                        <img src="assets/world-map.jpg" alt="">
+                        <button class="map-pin" style="--x: 51.6%; --y: 38.2%;" type="button" aria-label="Germany">
+                            <span>Germany</span>
+                        </button>
+                        <button class="map-pin" style="--x: 72.2%; --y: 47.8%;" type="button" aria-label="China">
+                            <span>China</span>
+                        </button>
+                        <button class="map-pin" style="--x: 82.0%; --y: 45.2%;" type="button" aria-label="Japan">
+                            <span>Japan</span>
+                        </button>
+                    </div>
                 </figure>
                 <div class="empty-state blog-placeholder">
                     <p>This page is ready for posts, field notes, project updates, travel notes, or essays.</p>
