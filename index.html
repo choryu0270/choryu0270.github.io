@@ -196,7 +196,32 @@
             return [...arcs[~arcIndex]].reverse();
         }
 
+        function shouldDrawRing(points) {
+            const bounds = points.reduce((extent, [lon, lat]) => ({
+                minLon: Math.min(extent.minLon, lon),
+                maxLon: Math.max(extent.maxLon, lon),
+                minLat: Math.min(extent.minLat, lat),
+                maxLat: Math.max(extent.maxLat, lat)
+            }), {
+                minLon: Infinity,
+                maxLon: -Infinity,
+                minLat: Infinity,
+                maxLat: -Infinity
+            });
+
+            const lonSpan = bounds.maxLon - bounds.minLon;
+            const latSpan = bounds.maxLat - bounds.minLat;
+            const outsideLatitude = bounds.maxLat < mapViewBox.minLat || bounds.minLat > mapViewBox.maxLat;
+            const isHorizontalArtifact = lonSpan > 300 && latSpan < 2;
+
+            return !outsideLatitude && !isHorizontalArtifact;
+        }
+
         function ringToPath(points) {
+            if (!shouldDrawRing(points)) {
+                return '';
+            }
+
             const projected = points.map(([lon, lat]) => projectMapPoint(lon, lat));
 
             if (projected.length < 2) {
