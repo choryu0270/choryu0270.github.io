@@ -146,6 +146,94 @@ main {
     line-height: 1.7;
 }
 
+.publications-section {
+    align-items: flex-start;
+    overflow-y: auto;
+}
+
+.publications-inner {
+    text-align: left;
+}
+
+.publications-inner h2,
+.publications-inner .section-kicker,
+.publication-source,
+.publication-status {
+    text-align: center;
+}
+
+.publication-source,
+.publication-status {
+    margin-bottom: 16px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15px;
+}
+
+.publication-source a,
+.publication-links a,
+.publication-title {
+    color: white;
+}
+
+.publication-list {
+    display: grid;
+    gap: 14px;
+    max-width: 860px;
+    margin: 28px auto 22px;
+    list-style: none;
+}
+
+.publication-item {
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 8px;
+    padding: 18px;
+    background: rgba(0, 0, 0, 0.26);
+}
+
+.publication-title {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.45;
+    text-decoration: none;
+}
+
+.publication-title:hover,
+.publication-title:focus-visible {
+    text-decoration: underline;
+    outline: none;
+}
+
+.publication-meta,
+.publication-doi {
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.publication-doi {
+    margin-top: 6px;
+}
+
+.publication-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 18px;
+}
+
+.publication-links a {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.publication-links a:hover,
+.publication-links a:focus-visible {
+    text-decoration: underline;
+    outline: none;
+}
+
 footer {
     width: 100%;
     padding: 20px;
@@ -188,7 +276,8 @@ footer a:hover {
     }
 
     .hero-text p,
-    .empty-state {
+    .empty-state,
+    .publication-title {
         font-size: 16px;
     }
 
@@ -228,8 +317,13 @@ footer a:hover {
         padding: 88px 18px 60px;
     }
 
-    .empty-state {
+    .empty-state,
+    .publication-item {
         padding: 20px;
+    }
+
+    .publication-links {
+        gap: 14px;
     }
 
     .social-icons img {
