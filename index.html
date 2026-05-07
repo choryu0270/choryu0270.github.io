@@ -108,6 +108,8 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
     <script>
         const sections = document.querySelectorAll('.page-section');
         const links = document.querySelectorAll('[data-page-link]');
@@ -158,100 +160,38 @@
             return Math.log(Math.tan(Math.PI / 4 + radians / 2));
         }
 
-        function projectMapPoint(lon, lat) {
-            const clampedLat = Math.max(mapViewBox.minLat, Math.min(mapViewBox.maxLat, lat));
+        function getMapProjection() {
+            if (!window.d3 || !window.d3.geoMercator) {
+                return null;
+            }
+
+            const scale = mapViewBox.width / (2 * Math.PI);
             const maxY = mercatorY(mapViewBox.maxLat);
             const minY = mercatorY(mapViewBox.minLat);
+            const scaleY = mapViewBox.height / (scale * (maxY - minY));
+            const projection = window.d3.geoMercator()
+                .scale(scale)
+                .translate([mapViewBox.width / 2, scale * maxY])
+                .clipExtent([[0, 0], [mapViewBox.width, mapViewBox.height / scaleY]]);
 
+            return { projection, scaleY };
+        }
+
+        function projectMapPoint(lon, lat) {
+            const clampedLat = Math.max(mapViewBox.minLat, Math.min(mapViewBox.maxLat, lat));
+            const mapProjection = getMapProjection();
+
+            if (mapProjection) {
+                const [x, y] = mapProjection.projection([lon, clampedLat]);
+                return { x, y: y * mapProjection.scaleY };
+            }
+
+            const maxY = mercatorY(mapViewBox.maxLat);
+            const minY = mercatorY(mapViewBox.minLat);
             return {
                 x: ((lon + 180) / 360) * mapViewBox.width,
                 y: ((maxY - mercatorY(clampedLat)) / (maxY - minY)) * mapViewBox.height
             };
-        }
-
-        function decodeTopoArcs(topology) {
-            const { scale, translate } = topology.transform;
-
-            return topology.arcs.map((arc) => {
-                let x = 0;
-                let y = 0;
-
-                return arc.map(([dx, dy]) => {
-                    x += dx;
-                    y += dy;
-
-                    return [
-                        x * scale[0] + translate[0],
-                        y * scale[1] + translate[1]
-                    ];
-                });
-            });
-        }
-
-        function getTopoArc(arcs, arcIndex) {
-            if (arcIndex >= 0) {
-                return arcs[arcIndex];
-            }
-
-            return [...arcs[~arcIndex]].reverse();
-        }
-
-        function shouldDrawRing(points) {
-            const bounds = points.reduce((extent, [lon, lat]) => ({
-                minLon: Math.min(extent.minLon, lon),
-                maxLon: Math.max(extent.maxLon, lon),
-                minLat: Math.min(extent.minLat, lat),
-                maxLat: Math.max(extent.maxLat, lat)
-            }), {
-                minLon: Infinity,
-                maxLon: -Infinity,
-                minLat: Infinity,
-                maxLat: -Infinity
-            });
-
-            const lonSpan = bounds.maxLon - bounds.minLon;
-            const latSpan = bounds.maxLat - bounds.minLat;
-            const outsideLatitude = bounds.maxLat < mapViewBox.minLat || bounds.minLat > mapViewBox.maxLat;
-            const isHorizontalArtifact = lonSpan > 300 && latSpan < 2;
-
-            return !outsideLatitude && !isHorizontalArtifact;
-        }
-
-        function ringToPath(points) {
-            if (!shouldDrawRing(points)) {
-                return '';
-            }
-
-            const projected = points.map(([lon, lat]) => projectMapPoint(lon, lat));
-
-            if (projected.length < 2) {
-                return '';
-            }
-
-            return projected
-                .map((point, index) => `${index ? 'L' : 'M'}${point.x.toFixed(2)},${point.y.toFixed(2)}`)
-                .join(' ') + ' Z';
-        }
-
-        function landGeometryToPath(geometry, arcs) {
-            return geometry.arcs
-                .flatMap((polygon) => polygon.map((ring) => ring.flatMap((arcIndex, index) => {
-                    const arc = getTopoArc(arcs, arcIndex);
-                    return index ? arc.slice(1) : arc;
-                })))
-                .map(ringToPath)
-                .filter(Boolean)
-                .join(' ');
-        }
-
-        function landObjectToPath(landObject, arcs) {
-            const geometries = landObject.type === 'GeometryCollection' ? landObject.geometries : [landObject];
-
-            return geometries
-                .filter((geometry) => geometry && geometry.arcs)
-                .map((geometry) => landGeometryToPath(geometry, arcs))
-                .filter(Boolean)
-                .join(' ');
         }
 
         function renderTravelPins() {
@@ -288,9 +228,16 @@
                 }
 
                 const topology = await response.json();
-                const arcs = decodeTopoArcs(topology);
+                if (!window.d3 || !window.topojson) {
+                    throw new Error('Map projection libraries failed to load');
+                }
+
+                const mapProjection = getMapProjection();
+                const landFeature = window.topojson.feature(topology, topology.objects.land);
+                const landPathData = window.d3.geoPath(mapProjection.projection)(landFeature);
                 const landPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                landPath.setAttribute('d', landObjectToPath(topology.objects.land, arcs));
+                landPath.setAttribute('d', landPathData);
+                landPath.setAttribute('transform', `scale(1 ${mapProjection.scaleY})`);
                 document.getElementById('map-land').append(landPath);
             } catch (error) {
                 document.getElementById('map-land').classList.add('is-empty');
