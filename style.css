@@ -288,6 +288,10 @@ main {
     background: white;
 }
 
+.map-pin.is-current {
+    background: #2878d7;
+}
+
 .map-pin span {
     position: absolute;
     left: 50%;
@@ -311,6 +315,11 @@ main {
 .map-pin:focus-visible {
     outline: none;
     background: #b72f28;
+}
+
+.map-pin.is-current:hover,
+.map-pin.is-current:focus-visible {
+    background: #175ca8;
 }
 
 .map-pin:hover span,
