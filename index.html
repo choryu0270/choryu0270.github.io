@@ -121,7 +121,7 @@
             { name: 'Austria', lat: 47.5162, lon: 14.5501 },
             { name: 'Czechia', lat: 49.8175, lon: 15.4730 },
             { name: 'France', lat: 46.2276, lon: 2.2137 },
-            { name: 'Germany', lat: 51.1657, lon: 10.4515 },
+            { name: 'Germany', lat: 51.1657, lon: 10.4515, isCurrent: true },
             { name: 'Hong Kong', lat: 22.3193, lon: 114.1694 },
             { name: 'China', lat: 35.8617, lon: 104.1954 },
             { name: 'Japan', lat: 36.2048, lon: 138.2529 },
@@ -202,6 +202,7 @@
                 const point = projectMapPoint(place.lon, place.lat);
                 const pin = document.createElement('button');
                 pin.className = 'map-pin';
+                pin.classList.toggle('is-current', Boolean(place.isCurrent));
                 pin.type = 'button';
                 pin.setAttribute('aria-label', place.name);
                 pin.style.setProperty('--x', `${(point.x / mapViewBox.width * 100).toFixed(2)}%`);
