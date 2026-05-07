@@ -246,8 +246,7 @@ main {
 
 .map-land path {
     fill: rgba(255, 255, 255, 0.92);
-    stroke: rgba(255, 255, 255, 0.74);
-    stroke-width: 0.8;
+    stroke: none;
 }
 
 .map-land.is-empty::after {
