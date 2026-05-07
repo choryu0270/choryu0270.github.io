@@ -202,10 +202,18 @@ main {
 }
 
 .map-panel figcaption {
-    margin-bottom: 12px;
+    margin-bottom: 4px;
     color: white;
     font-size: 15px;
     font-weight: bold;
+}
+
+.map-subtitle {
+    margin: 0 0 12px;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0;
 }
 
 .map-credit {
