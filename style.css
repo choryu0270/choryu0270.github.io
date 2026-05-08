@@ -6,14 +6,24 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-image: url('background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    position: relative;
+    isolation: isolate;
+    background: #111;
     color: #333;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 header {
@@ -154,15 +164,27 @@ main {
 }
 
 .about-inner {
-    width: min(860px, 100%);
+    width: min(940px, 100%);
 }
 
 .about-copy {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 28px;
+    align-items: start;
     border: 1px solid rgba(255, 255, 255, 0.34);
     border-radius: 8px;
     padding: 28px;
     background: rgba(0, 0, 0, 0.24);
     text-align: left;
+}
+
+.about-photo {
+    display: block;
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.28);
 }
 
 .about-copy p {
@@ -468,6 +490,15 @@ footer a:hover {
 
     .about-copy p {
         font-size: 16px;
+    }
+
+    .about-copy {
+        grid-template-columns: 1fr;
+    }
+
+    .about-photo {
+        max-width: 260px;
+        margin: 0 auto;
     }
 
     .map-stage {
