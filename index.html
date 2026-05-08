@@ -78,13 +78,13 @@
             </div>
         </section>
 
-        <section id="research" class="page-section content-section" aria-labelledby="research-title" hidden>
-            <div class="section-inner">
+        <section id="research" class="page-section content-section research-section" aria-labelledby="research-title" hidden>
+            <div class="section-inner research-inner">
                 <p class="section-kicker">Work</p>
                 <h2 id="research-title">Research</h2>
-                <div class="empty-state">
-                    <p>This page is ready for research topics, projects, instruments, collaborations, and selected results.</p>
-                </div>
+                <p class="keyword-source">Keyword cloud generated from publication titles in ORCID.</p>
+                <p id="keyword-status" class="keyword-status">Loading research keywords...</p>
+                <div id="keyword-cloud" class="keyword-cloud" aria-live="polite"></div>
             </div>
         </section>
 
@@ -118,7 +118,9 @@
         const links = document.querySelectorAll('[data-page-link]');
         const validPages = Array.from(sections).map((section) => section.id);
         let publicationsLoaded = false;
+        let researchKeywordsLoaded = false;
         let travelMapLoaded = false;
+        let worksPromise = null;
 
         const travelPlaces = [
             { name: 'Austria', lat: 47.5162, lon: 14.5501 },
@@ -151,6 +153,10 @@
 
             if (nextPage === 'publications') {
                 loadPublications();
+            }
+
+            if (nextPage === 'research') {
+                loadResearchKeywords();
             }
 
             if (nextPage === 'blog') {
@@ -291,6 +297,24 @@
             return { title, year, journal, type, doi, url };
         }
 
+        async function fetchWorks() {
+            if (!worksPromise) {
+                worksPromise = fetch('https://pub.orcid.org/v3.0/0000-0001-6314-5424/works', {
+                    headers: { Accept: 'application/json' }
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('ORCID request failed');
+                        }
+
+                        return response.json();
+                    })
+                    .then((data) => (data.group || []).map(normalizeWork));
+            }
+
+            return worksPromise;
+        }
+
         function renderPublications(works) {
             const status = document.getElementById('publication-status');
             const list = document.getElementById('publication-list');
@@ -344,19 +368,110 @@
             const status = document.getElementById('publication-status');
 
             try {
-                const response = await fetch('https://pub.orcid.org/v3.0/0000-0001-6314-5424/works', {
-                    headers: { Accept: 'application/json' }
-                });
-
-                if (!response.ok) {
-                    throw new Error('ORCID request failed');
-                }
-
-                const data = await response.json();
-                const works = (data.group || []).map(normalizeWork);
+                const works = await fetchWorks();
                 renderPublications(works);
             } catch (error) {
                 status.textContent = 'Unable to load ORCID publications right now. Please use the ORCID or Google Scholar links below.';
+            }
+        }
+
+        function getKeywordEntries(works) {
+            const stopWords = new Set([
+                'about', 'after', 'also', 'analysis', 'and', 'are', 'based', 'been', 'between',
+                'both', 'from', 'for', 'into', 'its', 'measurement', 'measurements', 'method',
+                'new', 'non', 'not', 'of', 'on', 'or', 'over', 'study', 'the', 'their',
+                'through', 'to', 'toward', 'towards', 'using', 'via', 'with'
+            ]);
+            const preferredTerms = new Map([
+                ['acceleration', 'Acceleration'],
+                ['accelerator', 'Accelerator'],
+                ['astrophysical', 'Astrophysical'],
+                ['astrophysics', 'Astrophysics'],
+                ['collisionless', 'Collisionless'],
+                ['density', 'Density'],
+                ['electron', 'Electron'],
+                ['electrons', 'Electrons'],
+                ['emission', 'Emission'],
+                ['energy', 'Energy'],
+                ['high', 'High'],
+                ['ion', 'Ion'],
+                ['ions', 'Ions'],
+                ['laser', 'Laser'],
+                ['magnetic', 'Magnetic'],
+                ['magnetic', 'Magnetic'],
+                ['plasma', 'Plasma'],
+                ['plasmas', 'Plasmas'],
+                ['proton', 'Proton'],
+                ['protons', 'Protons'],
+                ['radiation', 'Radiation'],
+                ['shock', 'Shock'],
+                ['xuv', 'XUV']
+            ]);
+            const counts = new Map();
+
+            works.forEach((work) => {
+                work.title
+                    .toLowerCase()
+                    .replace(/[^a-z0-9+\-\s]/g, ' ')
+                    .split(/\s+/)
+                    .filter((word) => word.length > 2 && !stopWords.has(word))
+                    .forEach((word) => {
+                        counts.set(word, (counts.get(word) || 0) + 1);
+                    });
+            });
+
+            return Array.from(counts, ([word, count]) => ({
+                word: preferredTerms.get(word) || word.replace(/^\w/, (letter) => letter.toUpperCase()),
+                count
+            }))
+                .sort((a, b) => b.count - a.count || a.word.localeCompare(b.word))
+                .slice(0, 42);
+        }
+
+        function renderKeywordCloud(works) {
+            const status = document.getElementById('keyword-status');
+            const cloud = document.getElementById('keyword-cloud');
+            const keywords = getKeywordEntries(works);
+            cloud.textContent = '';
+
+            if (!keywords.length) {
+                status.textContent = 'No keywords could be generated from the current ORCID record.';
+                return;
+            }
+
+            const maxCount = Math.max(...keywords.map((keyword) => keyword.count));
+            const minCount = Math.min(...keywords.map((keyword) => keyword.count));
+            const range = Math.max(maxCount - minCount, 1);
+
+            keywords
+                .sort((a, b) => a.word.localeCompare(b.word))
+                .forEach((keyword) => {
+                    const weight = (keyword.count - minCount) / range;
+                    const tag = document.createElement('span');
+                    tag.className = 'keyword-token';
+                    tag.textContent = keyword.word;
+                    tag.title = `${keyword.count} publication title ${keyword.count === 1 ? 'match' : 'matches'}`;
+                    tag.style.setProperty('--keyword-size', `${0.9 + weight * 1.8}rem`);
+                    tag.style.setProperty('--keyword-alpha', `${0.62 + weight * 0.3}`);
+                    cloud.append(tag);
+                });
+
+            status.textContent = `${keywords.length} keywords generated from ${works.length} publication titles.`;
+        }
+
+        async function loadResearchKeywords() {
+            if (researchKeywordsLoaded) {
+                return;
+            }
+
+            researchKeywordsLoaded = true;
+            const status = document.getElementById('keyword-status');
+
+            try {
+                const works = await fetchWorks();
+                renderKeywordCloud(works);
+            } catch (error) {
+                status.textContent = 'Unable to load ORCID keywords right now. Please use the Publications page links instead.';
             }
         }
 

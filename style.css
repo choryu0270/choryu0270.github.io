@@ -110,7 +110,7 @@ main {
 
 .hero-text p {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 20ppx;
 }
 
 .social-icons {
@@ -365,6 +365,54 @@ main {
     max-width: 760px;
 }
 
+.research-section {
+    align-items: flex-start;
+}
+
+.research-inner {
+    width: min(980px, 100%);
+}
+
+.keyword-source,
+.keyword-status {
+    margin-bottom: 16px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 15px;
+}
+
+.keyword-status {
+    margin-bottom: 22px;
+}
+
+.keyword-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px 18px;
+    min-height: 260px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 8px;
+    padding: 34px;
+    background: rgba(0, 0, 0, 0.24);
+}
+
+.keyword-token {
+    color: rgba(255, 255, 255, var(--keyword-alpha, 0.76));
+    font-size: var(--keyword-size, 1rem);
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+    transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.keyword-token:hover,
+.keyword-token:focus-visible {
+    color: white;
+    transform: translateY(-2px);
+    outline: none;
+}
+
 .publications-inner {
     text-align: left;
 }
@@ -564,6 +612,11 @@ footer a:hover {
 
     .map-pin span {
         font-size: 13px;
+    }
+
+    .keyword-cloud {
+        gap: 12px;
+        padding: 24px 18px;
     }
 
     .social-icons img {
