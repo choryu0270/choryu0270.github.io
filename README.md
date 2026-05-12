@@ -1,2 +1,2 @@
 # choryu0270.github.io
-first testing.
+https://choryu0270.github.io/
